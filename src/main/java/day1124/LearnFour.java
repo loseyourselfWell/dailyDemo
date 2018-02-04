@@ -2,11 +2,8 @@ package day1124;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
-import sun.security.krb5.SCDynamicStoreConfig;
 
-import java.math.BigDecimal;
 import java.util.*;
-import java.util.zip.Adler32;
 
 public class LearnFour {
 

@@ -37,8 +37,11 @@ public class TestDemo {
     @Test
     public void dateTest(){
         LocalDate date = LocalDate.now();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String text = date.format(dateTimeFormatter);
-        System.out.println(text);
+        System.out.println(date);
+        Date dateNew = new Date();
+        System.out.println(dateNew);
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+////        String text = date.format(dateTimeFormatter);
+////        System.out.println(text);
     }
 }
