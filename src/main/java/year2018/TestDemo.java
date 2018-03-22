@@ -1,9 +1,15 @@
 package year2018;
 
+import org.junit.Assert;
 import org.junit.Test;
+import year2018.bean.Car;
 
-import java.time.LocalDate;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 
 /**
@@ -37,11 +43,65 @@ public class TestDemo {
     @Test
     public void dateTest(){
         LocalDate date = LocalDate.now();
-        System.out.println(date);
-        Date dateNew = new Date();
-        System.out.println(dateNew);
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-////        String text = date.format(dateTimeFormatter);
-////        System.out.println(text);
+        LocalDateTime dateTime = LocalDateTime.now();
+        System.out.println(dateTime);
+//        LocalDate setDateBySelf = LocalDate.of(2018, 02, 28);
+//        System.out.println(setDateBySelf);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String text = dateTimeFormatter.format(dateTime);
+        System.out.println(text);
+        // 取本月第1天
+        LocalDate firstDayOfThisMonth = date.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDate secondDayOfThisMonth = date.withDayOfMonth(2);
+        // 取本月最后一天，再也不用计算是28，29，30还是31：
+        LocalDate lastDayOfThisMonth = date.with(TemporalAdjusters.lastDayOfMonth());
+        // 取2015年1月第一个周一，这个计算用Calendar要死掉很多脑细胞：
+        LocalDate firstMondayOf2015 = LocalDate.parse("2015-01-01").with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
+        System.out.println(firstDayOfThisMonth + "==="+secondDayOfThisMonth+"==="+lastDayOfThisMonth+"==="+firstMondayOf2015);
+        long time = System.currentTimeMillis();
+        System.out.println(time);
+        Instant instant = Instant.now();
+        System.out.println(instant);
     }
+
+    @Test
+    public void TestOption(){
+        Optional<String> name = null;
+        Assert.assertEquals(true,name.isPresent());
+
+        String time = "2018-02-08 01:20";
+    }
+
+    @Test
+    public void ReflectTest() throws Throwable {
+        ClassLoader loader = Thread.currentThread().getContextClassLoader();
+        Class clazz = loader.loadClass("year2018.bean.Car");
+
+        Constructor cons =  clazz.getDeclaredConstructor((Class[]) null);
+        Car car = (Car)cons.newInstance();
+
+        Method setBrand = clazz.getMethod("setBrand",String.class);
+        setBrand.invoke(car,"奇瑞QQ");
+
+        Method setColor = clazz.getMethod("setColor",String.class);
+        setColor.invoke(car,"red");
+
+        car.introduce();
+    }
+
+    @Test
+    @NeedTest
+    public void SpringDemo(){
+        Class clazz = ForumService.class;
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method method : methods) {
+            NeedTest need = method.getAnnotation(NeedTest.class);
+            if (need.value()){
+                System.out.println(method.getName() + "需要测试");
+            }else {
+                System.out.println(method.getName() + "不需要测试");
+            }
+        }
+    }
+
 }
