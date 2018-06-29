@@ -104,4 +104,11 @@ public class TestDemo {
         }
     }
 
+    @Test
+    public void testProtoType() {
+        ConcreteProtoType concreteProtoType = new ConcreteProtoType("abc");
+        ProtoType clone = concreteProtoType.myClone();
+        System.out.println(clone.toString());
+    }
+
 }
