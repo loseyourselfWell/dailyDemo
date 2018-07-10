@@ -86,7 +86,7 @@ public class TestDemo {
         Method setColor = clazz.getMethod("setColor",String.class);
         setColor.invoke(car,"red");
 
-        car.introduce();
+       //car.introduce();
     }
 
     @Test
@@ -109,6 +109,27 @@ public class TestDemo {
         ConcreteProtoType concreteProtoType = new ConcreteProtoType("abc");
         ProtoType clone = concreteProtoType.myClone();
         System.out.println(clone.toString());
+    }
+
+    @Test
+    public void testSelectionSort () {
+        int [] arr = {3, 4,2, 45, 65, 33, 12,15};
+
+        for (int i=0;i<arr.length-1;i++) {
+            int k = i;
+            for (int j=k+1;j<arr.length;j++) {
+                // 如果后面有元素比需要比较的元素小,则交换
+                if (arr[j] < arr[k] ) {
+                    k = j;
+                }
+            }
+            if (i != k) {
+                int temp = arr[k];
+                arr[k] = arr[i];
+                arr[i] = temp;
+            }
+        }
+        System.out.println(Arrays.toString(arr));
     }
 
 }
