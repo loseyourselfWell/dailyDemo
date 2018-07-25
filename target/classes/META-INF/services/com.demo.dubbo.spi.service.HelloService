@@ -1,2 +1,0 @@
-com.demo.dubbo.spi.service.impl.DefaultHelloService
-com.demo.dubbo.spi.service.impl.CustomHelloService
