@@ -1,5 +1,6 @@
 package year2018;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Assert;
 import org.junit.Test;
 import year2018.bean.Car;
@@ -32,11 +33,15 @@ public class TestDemo {
         List<String> arrayList = new ArrayList<>();
         arrayList.add("1");
         arrayList.add("2");
-        for (String str : arrayList){
-            if ("2".equals(str)){
-                arrayList.remove(str);
+        arrayList.add("3");
+        int pageSizeEnd = 20;
+            if (pageSizeEnd > arrayList.size()) {
+                pageSizeEnd = arrayList.size();
             }
-        }
+            if (3 <= arrayList.size()) {
+                List<String> subList = arrayList.subList(0, pageSizeEnd);
+                System.out.println(JSON.toJSONString(subList));
+            }
         //System.out.println(arrayList.toString());
     }
 
