@@ -4,7 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * 被监听的对象，当有改变时通知监听者
+ * 观察者
  */
 public class AppForNotified implements Observer {
 
