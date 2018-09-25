@@ -4,7 +4,7 @@ import java.util.Observable;
 
 
 /**
- * 监听器，负责监听发布者
+ * 发布者相当于主题，用来发布消息交给监听者
  */
 public class ObservableForListen extends Observable {
 
@@ -15,6 +15,7 @@ public class ObservableForListen extends Observable {
     public void changeMessage(String message){
         setChanged();
         /**
+         * 通知监听者
          * 回调observer的update方法
          */
         notifyObservers(message);
