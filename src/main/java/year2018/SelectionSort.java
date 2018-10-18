@@ -18,7 +18,7 @@ public class SelectionSort {
             System.out.print(num + " ");
         }
         //选择排序的优化
-        for (int i = 0; i < arr.length - 1; i++) {// 做第i趟排序
+        for (int i = 0; i < arr.length - 1; i++) { // 做第i趟排序
             int k = i;
             for (int j = k + 1; j < arr.length; j++) {// 选最小的记录
                 if (arr[j] < arr[k]) {
