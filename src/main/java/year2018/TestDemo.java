@@ -137,4 +137,11 @@ public class TestDemo {
         System.out.println(Arrays.toString(arr));
     }
 
+
+    @Test
+    public void randomTest() {
+        Random random = new Random();
+        System.out.println(random.nextInt(10));
+    }
+
 }
