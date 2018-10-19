@@ -1,5 +1,7 @@
 package year2018;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -8,14 +10,11 @@ import java.util.Date;
  * @Title: year2018
  * @date 2018/2/5 10:38
  */
+@Data
 public class DateBean {
     private Date date;
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    private  Integer value;
+    public DateBean(int a , Object b) {
+        this.value = a;
     }
 }
