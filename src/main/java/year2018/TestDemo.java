@@ -153,7 +153,7 @@ public class TestDemo {
     @Test
     public void numeric() {
         int i1 = 3;
-        int i2 = i1;
+        int i2;
         i2 = 4;
         System.out.print("i1==" + i1);
         System.out.println(" but i2==" + i2);
