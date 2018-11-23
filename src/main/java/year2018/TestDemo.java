@@ -4,16 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
 import year2018.bean.Car;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author likun
@@ -173,8 +176,9 @@ public class TestDemo {
 
     @Test
     public void randomTest() {
-        Random random = new Random();
-        System.out.println(random.nextInt(10));
+        ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
+        map.put("1",1);
+        System.out.println(map.size());
     }
 
 }
