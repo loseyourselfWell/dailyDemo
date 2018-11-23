@@ -167,9 +167,11 @@ public class TestDemo {
 
     @Test
     public void randomTest() {
+
         ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
         map.put("1",1);
         System.out.println(map.size());
     }
+
 
 }
