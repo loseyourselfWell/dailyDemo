@@ -165,11 +165,6 @@ public class TestDemo {
         System.out.println(" and v2.val==" + v2.val);
     }
 
-    public static void main(String[] args) {
-
-    }
-
-
     @Test
     public void randomTest() {
         ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
