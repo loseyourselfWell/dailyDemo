@@ -165,10 +165,6 @@ public class TestDemo {
         System.out.println(" and v2.val==" + v2.val);
     }
 
-    public static void foo (String str) {
-        str = "iphone";
-    }
-
     public static void main(String[] args) {
 
     }
