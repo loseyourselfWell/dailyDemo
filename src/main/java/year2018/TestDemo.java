@@ -14,6 +14,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author likun
@@ -173,8 +174,18 @@ public class TestDemo {
 
     @Test
     public void randomTest() {
-        Random random = new Random();
-        System.out.println(random.nextInt(10));
+        long before = System.currentTimeMillis();
+        for (int i=0;i<100000;++i) {
+            System.out.println(i);
+        }
+        long after = System.currentTimeMillis();
+        System.out.println(after-before);
+        long before2 = System.currentTimeMillis();
+        for (int i=0;i<100000;i++) {
+            System.out.println(i);
+        }
+        long after2 = System.currentTimeMillis();
+        System.out.println(after2-before2);
     }
 
 }
