@@ -4,12 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
 import year2018.bean.Car;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
@@ -151,7 +153,7 @@ public class TestDemo {
     @Test
     public void numeric() {
         int i1 = 3;
-        int i2 = i1;
+        int i2;
         i2 = 4;
         System.out.print("i1==" + i1);
         System.out.println(" but i2==" + i2);
@@ -162,15 +164,6 @@ public class TestDemo {
         System.out.print("v1.val==" + v1.val);
         System.out.println(" and v2.val==" + v2.val);
     }
-
-    public static void foo (String str) {
-        str = "iphone";
-    }
-
-    public static void main(String[] args) {
-
-    }
-
 
     @Test
     public void randomTest() {
@@ -187,5 +180,6 @@ public class TestDemo {
         long after2 = System.currentTimeMillis();
         System.out.println(after2-before2);
     }
+
 
 }
