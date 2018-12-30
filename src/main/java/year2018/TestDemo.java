@@ -2,6 +2,8 @@ package year2018;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
+import junit.framework.TestCase;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
@@ -24,7 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Title: year2018
  * @date 2018/1/15 13:43
  */
-public class TestDemo {
+@Slf4j
+public class TestDemo{
 
     @Test
     public void enumTest(){
@@ -179,6 +182,12 @@ public class TestDemo {
         }
         long after2 = System.currentTimeMillis();
         System.out.println(after2-before2);
+    }
+
+    @Test
+    public void snowTest() {
+        log.info("ddd");
+        System.out.println(111);
     }
 
 
