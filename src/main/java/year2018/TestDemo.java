@@ -187,7 +187,6 @@ public class TestDemo{
     @Test
     public void snowTest() {
         log.info("ddd");
-        System.out.println(111);
     }
 
 
