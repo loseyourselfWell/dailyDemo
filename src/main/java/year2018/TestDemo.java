@@ -184,10 +184,5 @@ public class TestDemo{
         System.out.println(after2-before2);
     }
 
-    @Test
-    public void snowTest() {
-        log.info("ddd");
-    }
-
 
 }
