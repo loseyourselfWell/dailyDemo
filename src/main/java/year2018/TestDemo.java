@@ -190,8 +190,4 @@ public class TestDemo{
     }
 
 
-    @Test
-    public void rebaseTest() {
-        log.info("snow");
-    }
 }
