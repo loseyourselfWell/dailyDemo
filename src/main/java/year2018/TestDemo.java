@@ -194,4 +194,9 @@ public class TestDemo{
     public void rebaseTest() {
         log.info("snow");
     }
+
+    @Test
+    public void oneMoreTest () {
+        log.info("one more");
+    }
 }
