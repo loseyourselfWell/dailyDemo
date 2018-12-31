@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
 import year2018.bean.Car;
+import year2018.thread.aaa;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -199,4 +200,5 @@ public class TestDemo{
     public void oneMoreTest () {
         log.info("one more");
     }
+
 }
