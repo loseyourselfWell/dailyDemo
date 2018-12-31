@@ -185,4 +185,8 @@ public class TestDemo{
     }
 
 
+    @Test
+    public void twoMoreTest () {
+        log.info("two more");
+    }
 }
