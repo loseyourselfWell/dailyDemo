@@ -1,18 +1,17 @@
 package year2018;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.collect.Lists;
+import junit.framework.TestCase;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.beans.BeanUtils;
 import year2018.bean.Car;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
@@ -24,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Title: year2018
  * @date 2018/1/15 13:43
  */
-public class TestDemo {
+public class TestDemo extends TestCase {
 
     @Test
     public void enumTest(){
