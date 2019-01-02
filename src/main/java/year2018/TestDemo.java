@@ -1,11 +1,10 @@
 package year2018;
 
 import com.alibaba.fastjson.JSON;
-import junit.framework.TestCase;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import year2018.bean.Car;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.DayOfWeek;
@@ -15,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * @author likun
@@ -23,7 +22,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Title: year2018
  * @date 2018/1/15 13:43
  */
-public class TestDemo extends TestCase {
+
+@Slf4j
+public class TestDemo{
 
     @Test
     public void enumTest(){
@@ -166,11 +167,33 @@ public class TestDemo extends TestCase {
 
     @Test
     public void randomTest() {
+        long before = System.currentTimeMillis();
+        for (int i=0;i<100000;++i) {
+            System.out.println(i);
+        }
+        long after = System.currentTimeMillis();
+        System.out.println(after-before);
+        long before2 = System.currentTimeMillis();
+        for (int i=0;i<100000;i++) {
+            System.out.println(i);
+        }
+        long after2 = System.currentTimeMillis();
+        System.out.println(after2-before2);
+    }
 
-        ConcurrentHashMap<String,Object> map = new ConcurrentHashMap<>();
-        map.put("1",1);
-        System.out.println(map.size());
+    @Test
+    public void snowTest() {
+        log.info("ddd");
     }
 
 
+    @Test
+    public void rebaseTest() {
+        log.info("snow");
+    }
+
+    @Test
+    public void oneMoreTest () {
+        log.info("one more");
+    }
 }
