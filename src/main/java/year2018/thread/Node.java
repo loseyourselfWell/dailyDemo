@@ -2,8 +2,6 @@ package year2018.thread;
 
 import lombok.Data;
 
-import java.util.*;
-
 /**
  * @package year2018.thread
  * @Author: Administrator
