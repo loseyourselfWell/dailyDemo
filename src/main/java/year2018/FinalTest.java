@@ -8,7 +8,7 @@ package year2018;
 public class FinalTest {
 
     public static void main(String[] args) {
-        String str = "aaa";
+        String str = "Node";
         FinalTest test = new FinalTest();
         test.checkFinalVariable(str);
         str = str + "bbb";

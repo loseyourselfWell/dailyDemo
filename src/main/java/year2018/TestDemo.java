@@ -2,9 +2,12 @@ package year2018;
 
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import year2018.bean.Car;
+import year2018.thread.Node;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.time.DayOfWeek;
@@ -14,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 
 /**
@@ -47,7 +51,6 @@ public class TestDemo{
                 List<String> subList = arrayList.subList(0, pageSizeEnd);
                 System.out.println(JSON.toJSONString(subList));
             }
-        //System.out.println(arrayList.toString());
     }
 
     @Test
@@ -194,6 +197,17 @@ public class TestDemo{
 
     @Test
     public void oneMoreTest () {
+        Date date = new Date();
+        System.out.println(date);
         log.info("one more");
+    }
+
+
+    @Test
+    public void CASTest () {
+
+        AtomicBoolean locked = new AtomicBoolean(true);
+
+        System.out.println(locked.compareAndSet(false,true));
     }
 }
