@@ -18,6 +18,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 
 /**
@@ -43,14 +44,20 @@ public class TestDemo{
         arrayList.add("1");
         arrayList.add("2");
         arrayList.add("3");
-        int pageSizeEnd = 20;
-            if (pageSizeEnd > arrayList.size()) {
-                pageSizeEnd = arrayList.size();
+        Iterator<String> iterator = arrayList.iterator();
+        while (iterator.hasNext()) {
+            String nextStr = iterator.next();
+            System.out.println(JSON.toJSONString(nextStr));
+            if (nextStr.equals("1") ) {
+                iterator.remove();
+                break;
             }
-            if (3 <= arrayList.size()) {
-                List<String> subList = arrayList.subList(0, pageSizeEnd);
-                System.out.println(JSON.toJSONString(subList));
-            }
+        }
+        iterator.forEachRemaining(this::forEach);
+    }
+
+    private void forEach (String t) {
+        System.out.println(t);
     }
 
     @Test
@@ -209,5 +216,17 @@ public class TestDemo{
         AtomicBoolean locked = new AtomicBoolean(true);
 
         System.out.println(locked.compareAndSet(false,true));
+    }
+
+    @Test
+    public void ObjectTest () {
+        Car car = new Car();
+        setColor(car);
+        System.out.println(JSON.toJSONString(car));
+    }
+
+    private void setColor (Car car) {
+        car.setBrand("jili");
+        car.setColor("red");
     }
 }
