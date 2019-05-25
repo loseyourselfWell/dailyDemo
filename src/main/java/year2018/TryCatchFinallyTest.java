@@ -1,6 +1,8 @@
 package year2018;
 
-import org.apache.commons.lang3.StringUtils;
+import year2018.bean.Car;
+
+import java.util.Comparator;
 
 /**
  * try catch finally Demo
@@ -9,28 +11,18 @@ import org.apache.commons.lang3.StringUtils;
  * @Title: year2018
  * @date 2018/3/22 10:19
  */
-public class TryCatchFinallyTest {
+public class TryCatchFinallyTest implements Comparable{
 
-    public static final String testOne(){
-        String str = StringUtils.EMPTY;
-        try {
-            str = "try";
-            return str;
-        }catch (Exception e) {
-            str = "catch";
-            return str;
-        }finally {
-            str = "finally";
-            return str;
-        }
+    private Object object;
+
+    static Comparator<Object> hashCodeOrder = Comparator.comparingInt(Object::hashCode);
+
+    public int ComPareTo(Object o, Object object) {
+        return hashCodeOrder.compare(o,object);
     }
 
-    public static void main(String[] args) {
-        /**
-         * 详解
-         * 1.finally块中避免使用return语句
-         * 2.try catch finally中如果finally中有return则返回finally中,否则返回try/catch中的return语句
-         */
-        System.out.println(testOne());
+    @Override
+    public int compareTo(Object o) {
+        return hashCodeOrder.compare(object,o);
     }
 }

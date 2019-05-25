@@ -229,4 +229,10 @@ public class TestDemo{
         car.setBrand("jili");
         car.setColor("red");
     }
+
+    @Test
+    public void nullTest() {
+        Integer quantity = null;
+        Objects.requireNonNull(quantity);
+    }
 }
