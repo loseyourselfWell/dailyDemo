@@ -1,15 +1,22 @@
 package year2018;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.time.DateUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
 import year2018.bean.Car;
 import year2018.thread.Node;
+import year2019.BuilderDemo;
+import year2019.Complex;
+import year2019.QueryBean;
+import year2019.java8.Dish;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -18,7 +25,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BiPredicate;
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 
 /**
@@ -33,28 +45,65 @@ public class TestDemo{
 
     @Test
     public void enumTest(){
-        List<Day0103> list = new ArrayList<>();
-        Collections.sort(list, Comparator.naturalOrder());
-        System.out.println(DemoEnum.ONE_DAT.getCode());
+
     }
 
     @Test
     public void testList(){
-        List<String> arrayList = new ArrayList<>();
-        arrayList.add("1");
-        arrayList.add("2");
-        arrayList.add("3");
-        Iterator<String> iterator = arrayList.iterator();
-        while (iterator.hasNext()) {
-            String nextStr = iterator.next();
-            System.out.println(JSON.toJSONString(nextStr));
-            if (nextStr.equals("1") ) {
-                iterator.remove();
-                break;
-            }
-        }
-        iterator.forEachRemaining(this::forEach);
+        List<Dish> dishList = new ArrayList<>();
+
+        dishList.add(new Dish("111",true,300,Dish.Type.FISH));
+//        arrayList.add("1");
+//        arrayList.add("2");
+//        arrayList.add("3");
+        List<Integer> integerList = dishList.parallelStream().filter(d -> {
+            System.out.println("filtering : " + d.getName());
+            return d.getCalories() < 400;})
+                .sorted(Comparator.comparing(Dish::getCalories))
+                .map(Dish::getName)
+                .map(String::length)
+                .collect(Collectors.toList());
+
     }
+
+    @Test
+    public void streamTest() {
+        String[] arrayOfWords = {"Goodbye", "World"};
+        Stream<String> streamOfwords = Arrays.stream(arrayOfWords);
+        List<String> strList = streamOfwords
+                .map(world -> world.split(""))
+                .flatMap(Arrays::stream)
+                .distinct()
+                .collect(Collectors.toList());
+        System.out.println(JSON.toJSONString(strList));
+
+        List<Integer> numberList = Lists.newArrayList(1,3,4,5,6);
+        int total = numberList.parallelStream()
+                .mapToInt(num -> num).reduce(1,(a,b) -> a * b);
+        System.out.println(total);
+
+        List<Dish> dishList = new ArrayList<>();
+        dishList.add(new Dish("111",true,300,Dish.Type.FISH));
+        dishList.add(new Dish("222",true,400,Dish.Type.MEAT));
+
+
+
+        String collect = dishList.parallelStream()
+                .map(Dish::getName)
+                .collect(Collectors.joining(","));
+
+        System.out.println(collect);
+
+        Stream<int[]> stream = IntStream.range(1, 100).boxed()
+                .flatMap(a -> IntStream.range(a, 100)
+                        .filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+                        .mapToObj(b -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)})
+                );
+        stream.limit(5).forEach(t -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
+
+        Stream.iterate(0, n -> n + 2).limit(10).forEach(System.out::println);
+    }
+
 
     private void forEach (String t) {
         System.out.println(t);
@@ -86,10 +135,16 @@ public class TestDemo{
 
     @Test
     public void TestOption(){
-        Optional<String> name = null;
-        Assert.assertEquals(true,name.isPresent());
-
-        String time = "2018-02-08 01:20";
+        List<Integer> list = new ArrayList<>();
+        list.add(3);
+        Integer integer = list.stream().filter(d -> d > 2).findAny().orElse(1);
+        System.out.println(integer);
+        Map<String,Object> map = new HashMap<>();
+        map.put("key",null);
+        Optional<Object> value = Optional.ofNullable(map.get("key"));
+        Optional<String> stringOptional = Optional.empty();
+        list.stream().findAny().orElse(2);
+        System.out.println(Runtime.getRuntime().availableProcessors());
     }
 
     @Test
@@ -178,17 +233,19 @@ public class TestDemo{
     @Test
     public void randomTest() {
         long before = System.currentTimeMillis();
-        for (int i=0;i<100000;++i) {
-            System.out.println(i);
+        for (int i=0;i<10000000;++i) {
+            //System.out.println(i);
         }
         long after = System.currentTimeMillis();
         System.out.println(after-before);
         long before2 = System.currentTimeMillis();
-        for (int i=0;i<100000;i++) {
-            System.out.println(i);
+        for (int i=0;i<10000000;i++) {
+            //System.out.println(i);
         }
         long after2 = System.currentTimeMillis();
         System.out.println(after2-before2);
+        System.out.println(Boolean.valueOf(true));
+        BuilderDemo builderDemo = new BuilderDemo.Builder("aaa",23).agentName("def").build();
     }
 
     @Test
@@ -229,4 +286,23 @@ public class TestDemo{
         car.setBrand("jili");
         car.setColor("red");
     }
+
+    @Test
+    public void complexTest() {
+        Complex complex = Complex.ComplexFactory("rookie",21);
+
+    }
+
+    @Test
+    public void testDuration() {
+        Date date1 = new Date();
+        date1 = DateUtils.addDays(date1,-1);
+        SimpleDateFormat dateFormat=new SimpleDateFormat( "yyyy-MM-dd");
+        String result=dateFormat.format(date1);
+        System.out.println(result);
+        Date date2 = new Date();
+        String day = DurationFormatUtils.formatPeriod(date1.getTime(), date2.getTime(), "d");
+        System.out.println(day);
+    }
+
 }

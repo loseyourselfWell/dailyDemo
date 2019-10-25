@@ -10,4 +10,8 @@ package com.demo.dubbo.spi.service;
 public interface HelloService {
 
     void hello();
+
+    default void say() {
+        System.out.println("default method");
+    }
 }

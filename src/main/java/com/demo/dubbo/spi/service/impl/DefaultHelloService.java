@@ -14,4 +14,8 @@ public class DefaultHelloService implements HelloService {
     public void hello() {
         System.out.println("DefaultHelloService hello");
     }
+
+    public void say() {
+
+    }
 }

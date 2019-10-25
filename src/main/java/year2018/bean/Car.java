@@ -17,12 +17,6 @@ public class Car {
 
     private String color;
 
-    public Car(){
+    private Integer money;
 
-    }
-
-    public Car(String brand, String color) {
-        this.brand = brand;
-        this.color = color;
-    }
 }
