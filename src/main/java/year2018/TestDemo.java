@@ -283,8 +283,8 @@ public class TestDemo{
     }
 
     private void setColor (Car car) {
-        car.setBrand("jili");
-        car.setColor("red");
+//        car.setBrand("jili");
+////        car.setColor("red");
     }
 
     @Test
