@@ -5,9 +5,10 @@ package year2019;
  * @Author: likun
  * @Date: 2019/4/29
  */
+@FunctionalInterface
 public interface DefaultInterface {
 
-    void getName();
+    String get(String string);
 
     /**
      * 缺省方法  子类可以不覆盖
@@ -15,4 +16,5 @@ public interface DefaultInterface {
     default void getValue() {
 
     }
+
 }
