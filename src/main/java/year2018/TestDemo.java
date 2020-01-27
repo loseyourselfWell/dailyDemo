@@ -366,6 +366,11 @@ public class TestDemo{
         System.out.println(extResponses.get(0).getAppId());
     }
 
+    @Test
+    public int complex(final int x) {
+        return x + 1;
+    }
+
 
 
 }
