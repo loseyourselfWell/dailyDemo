@@ -1,6 +1,9 @@
 package year2019;
 
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -38,4 +41,6 @@ public class TestDemo {
         }
         return null;
     }
+
+
 }
