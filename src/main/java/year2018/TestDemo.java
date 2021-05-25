@@ -3,19 +3,27 @@ package year2018;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.beans.BeanUtils;
 import year2018.bean.Car;
 import year2018.thread.Node;
 import year2019.*;
 import year2019.java8.Dish;
 
 import javax.annotation.Nonnull;
+import javax.validation.constraints.Null;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
@@ -28,6 +36,7 @@ import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
@@ -45,24 +54,25 @@ import java.util.stream.Stream;
  */
 
 @Slf4j
-public class TestDemo{
+public class TestDemo {
 
     @Test
-    public void enumTest(){
+    public void enumTest() {
 
     }
 
     @Test
-    public void testList(){
+    public void testList() {
         List<Dish> dishList = new ArrayList<>();
 
-        dishList.add(new Dish("111",true,300,Dish.Type.FISH));
+        dishList.add(new Dish("111", true, 300, Dish.Type.FISH));
 //        arrayList.add("1");
 //        arrayList.add("2");
 //        arrayList.add("3");
         List<Integer> integerList = dishList.parallelStream().filter(d -> {
             System.out.println("filtering : " + d.getName());
-            return d.getCalories() < 400;})
+            return d.getCalories() < 400;
+        })
                 .sorted(Comparator.comparing(Dish::getCalories))
                 .map(Dish::getName)
                 .map(String::length)
@@ -81,15 +91,14 @@ public class TestDemo{
                 .collect(Collectors.toList());
         System.out.println(JSON.toJSONString(strList));
 
-        List<Integer> numberList = Lists.newArrayList(1,3,4,5,6);
+        List<Integer> numberList = Lists.newArrayList(1, 3, 4, 5, 6);
         int total = numberList.parallelStream()
-                .mapToInt(num -> num).reduce(1,(a,b) -> a * b);
+                .mapToInt(num -> num).reduce(1, (a, b) -> a * b);
         System.out.println(total);
 
         List<Dish> dishList = new ArrayList<>();
-        dishList.add(new Dish("111",true,300,Dish.Type.FISH));
-        dishList.add(new Dish("222",true,400,Dish.Type.MEAT));
-
+        dishList.add(new Dish("111", true, 300, Dish.Type.FISH));
+        dishList.add(new Dish("222", true, 400, Dish.Type.MEAT));
 
 
         String collect = dishList.parallelStream()
@@ -109,12 +118,12 @@ public class TestDemo{
     }
 
 
-    private void forEach (String t) {
+    private void forEach(String t) {
         System.out.println(t);
     }
 
     @Test
-    public void dateTest(){
+    public void dateTest() {
         LocalDate date = LocalDate.now();
         LocalDateTime dateTime = LocalDateTime.now();
         System.out.println(dateTime);
@@ -130,7 +139,7 @@ public class TestDemo{
         LocalDate lastDayOfThisMonth = date.with(TemporalAdjusters.lastDayOfMonth());
         // 取2015年1月第一个周一，这个计算用Calendar要死掉很多脑细胞：
         LocalDate firstMondayOf2015 = LocalDate.parse("2015-01-01").with(TemporalAdjusters.firstInMonth(DayOfWeek.MONDAY));
-        System.out.println(firstDayOfThisMonth + "==="+secondDayOfThisMonth+"==="+lastDayOfThisMonth+"==="+firstMondayOf2015);
+        System.out.println(firstDayOfThisMonth + "===" + secondDayOfThisMonth + "===" + lastDayOfThisMonth + "===" + firstMondayOf2015);
         long time = System.currentTimeMillis();
         System.out.println(time);
         Instant instant = Instant.now();
@@ -138,13 +147,13 @@ public class TestDemo{
     }
 
     @Test
-    public void TestOption(){
+    public void TestOption() {
         List<Integer> list = new ArrayList<>();
         list.add(3);
         Integer integer = list.stream().filter(d -> d > 2).findAny().orElse(1);
         System.out.println(integer);
-        Map<String,Object> map = new HashMap<>();
-        map.put("key",null);
+        Map<String, Object> map = new HashMap<>();
+        map.put("key", null);
         Optional<Object> value = Optional.ofNullable(map.get("key"));
         Optional<String> stringOptional = Optional.empty();
         list.stream().findAny().orElse(2);
@@ -156,28 +165,28 @@ public class TestDemo{
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         Class clazz = loader.loadClass("year2018.bean.Car");
 
-        Constructor cons =  clazz.getDeclaredConstructor((Class[]) null);
-        Car car = (Car)cons.newInstance();
+        Constructor cons = clazz.getDeclaredConstructor((Class[]) null);
+        Car car = (Car) cons.newInstance();
 
-        Method setBrand = clazz.getMethod("setBrand",String.class);
-        setBrand.invoke(car,"奇瑞QQ");
+        Method setBrand = clazz.getMethod("setBrand", String.class);
+        setBrand.invoke(car, "奇瑞QQ");
 
-        Method setColor = clazz.getMethod("setColor",String.class);
-        setColor.invoke(car,"red");
+        Method setColor = clazz.getMethod("setColor", String.class);
+        setColor.invoke(car, "red");
 
-       //car.introduce();
+        //car.introduce();
     }
 
     @Test
     @NeedTest
-    public void SpringDemo(){
+    public void SpringDemo() {
         Class clazz = ForumService.class;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method method : methods) {
             NeedTest need = method.getAnnotation(NeedTest.class);
-            if (need.value()){
+            if (need.value()) {
                 System.out.println(method.getName() + "需要测试");
-            }else {
+            } else {
                 System.out.println(method.getName() + "不需要测试");
             }
         }
@@ -212,9 +221,6 @@ public class TestDemo{
 //    }
 
 
-
-
-
     class Value {
         int val;
     }
@@ -237,19 +243,19 @@ public class TestDemo{
     @Test
     public void randomTest() {
         long before = System.currentTimeMillis();
-        for (int i=0;i<10000000;++i) {
+        for (int i = 0; i < 10000000; ++i) {
             //System.out.println(i);
         }
         long after = System.currentTimeMillis();
-        System.out.println(after-before);
+        System.out.println(after - before);
         long before2 = System.currentTimeMillis();
-        for (int i=0;i<10000000;i++) {
+        for (int i = 0; i < 10000000; i++) {
             //System.out.println(i);
         }
         long after2 = System.currentTimeMillis();
-        System.out.println(after2-before2);
+        System.out.println(after2 - before2);
         System.out.println(Boolean.valueOf(true));
-        BuilderDemo builderDemo = new BuilderDemo.Builder("aaa",23).agentName("def").build();
+        BuilderDemo builderDemo = new BuilderDemo.Builder("aaa", 23).agentName("def").build();
     }
 
     @Test
@@ -264,7 +270,7 @@ public class TestDemo{
     }
 
     @Test
-    public void oneMoreTest () {
+    public void oneMoreTest() {
         Date date = new Date();
         System.out.println(date);
         log.info("one more");
@@ -272,37 +278,37 @@ public class TestDemo{
 
 
     @Test
-    public void CASTest () {
+    public void CASTest() {
 
         AtomicBoolean locked = new AtomicBoolean(true);
 
-        System.out.println(locked.compareAndSet(false,true));
+        System.out.println(locked.compareAndSet(false, true));
     }
 
     @Test
-    public void ObjectTest () {
+    public void ObjectTest() {
         Car car = new Car();
         setColor(car);
         System.out.println(JSON.toJSONString(car));
     }
 
-    private void setColor (Car car) {
+    private void setColor(Car car) {
 //        car.setBrand("jili");
 ////        car.setColor("red");
     }
 
     @Test
     public void complexTest() {
-        Complex complex = Complex.ComplexFactory("rookie",21);
+        Complex complex = Complex.ComplexFactory("rookie", 21);
 
     }
 
     @Test
     public void testDuration() throws ParseException {
         Date date1 = new Date();
-        date1 = DateUtils.addYears(date1,-1);
-        SimpleDateFormat dateFormat=new SimpleDateFormat( "yyyy-MM-dd");
-        Date lastDate = DateUtils.parseDate("2018-12-11","yyyy-MM-dd");
+        date1 = DateUtils.addYears(date1, -1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date lastDate = DateUtils.parseDate("2018-12-11", "yyyy-MM-dd");
         Date date2 = new Date();
         System.out.println(dateFormat.format(date1));
         String day = DurationFormatUtils.formatPeriod(date1.getTime(), date2.getTime(), "d");
@@ -312,7 +318,7 @@ public class TestDemo{
 
     @Test
     public void builder() {
-        List<String> stringList = Lists.newArrayList("a","b","c");
+        List<String> stringList = Lists.newArrayList("a", "b", "c");
 //        StringBuilder builder = new StringBuilder();
 //        for (int i=0;i<stringList.size();++i) {
 //            builder.append(stringList.get(i));
@@ -340,15 +346,15 @@ public class TestDemo{
                 iterator.remove();
             }
         }
-        final List<Integer> integerList = Lists.newArrayList(1,23,4,5,6);
+        final List<Integer> integerList = Lists.newArrayList(1, 23, 4, 5, 6);
         System.out.println(count);
         stringList.forEach(e -> {
 //           for(int i=0;i<10;i++) {
 //               e = e + i;
 //           }
-           for(Integer testInt : integerList) {
-               e = e + testInt;
-           }
+            for (Integer testInt : integerList) {
+                e = e + testInt;
+            }
         });
 
     }
@@ -366,13 +372,212 @@ public class TestDemo{
         System.out.println(extResponses.get(0).getAppId());
     }
 
+    /**
+     *
+     * @throws InterruptedException
+     */
     @Test
-    public int complex(final int x) {
-        return x + 1;
+    public void complex() throws InterruptedException {
+        System.out.println(Runtime.getRuntime().availableProcessors());
+        ExecutorService executorService = Executors.newWorkStealingPool();
+        IntStream.range(0, 12).mapToObj(n -> new Thread(() -> System.out.println(Thread.currentThread().getName())))
+                .forEach(executorService::execute);
+        executorService.awaitTermination(1, TimeUnit.SECONDS);
+
+    }
+
+    @Test
+    public void parseJson() {
+        String json = "{\"response\":{\"18538811510\":{\"detail\":{\"area\":[{\"city\":\"洛阳\"}],\"province\":\"河南\",\"type\":\"domestic\",\"operator\":\"联通\"},\"location\":\"河南洛阳联通\"}},\"responseHeader\":{\"status\":200,\"time\":1582270261199,\"version\":\"1.1.0\"}}";
+        Map<String, Object> map = JSON.parseObject(json, Map.class);
+        System.out.println(map.get("response").toString());
+        map = JSON.parseObject(map.get("response").toString(), Map.class);
+        System.out.println(map.get("18538811510"));
+        map = JSON.parseObject(map.get("18538811510").toString(), Map.class);
+        System.out.println(map.get("detail"));
+        phoneBean phoneBean = JSON.parseObject(map.get("detail").toString(), phoneBean.class);
+        System.out.println(phoneBean.getArea().get(0).get("city"));
+        phoneBean = null;
+        phoneBean = new phoneBean();
+        phoneBean.setProvince("111");
+
+
+    }
+
+    @Data
+    static class phoneBean {
+
+        // 地区，市
+        private List<Map<String,String>> area;
+
+        /**
+         * 省
+         */
+        private String province;
+
+    }
+
+    @Test
+    public void testInt() {
+        String message = "该号码触发您公司的号码黑名单，禁止呼叫！" + "\n如有疑问，请联系企业管理员";
+        System.out.println(message);
+
+    }
+
+    @Test
+    public void testSubString() {
+        StringBuilder builder = new StringBuilder();
+        String departmentName = "企业购买<font color=\"#fa9d04\">20200</font>通电销卫士检测，已消耗<font color=\"#fa9d04\">0</font>通";
+        boolean breakFlag = false;
+        for (int i=0;i<departmentName.length();i++) {
+            char current = departmentName.charAt(i);
+            if (('<' == current || breakFlag) && current != '>') {
+                breakFlag = true;
+                continue;
+            }
+            if ('>' == departmentName.charAt(i)) {
+                breakFlag = false;
+                continue;
+            }
+            builder.append(departmentName.charAt(i));
+        }
+        System.out.println(builder.length());
+
     }
 
 
+    private String dealCallDurationFormat(int duration) {
+        String durationFormat = "";
+        if (0 == duration){
+            return "--";
+        }
 
+        if (duration / 3600 > 0) {
+            durationFormat = unitFormat(duration / 3600) + "小时";
+        }
+        if (duration / 60 % 60 > 0) {
+            durationFormat += unitFormat(duration / 60 % 60) + "分";
+        }
+        if (duration % 60 > 0) {
+            durationFormat += unitFormat(duration % 60) + "秒";
+        }
+        // 如果处理时间最后以0几秒开头，则去除数字0
+        if (durationFormat.substring(0,1).equals("0")) {
+            durationFormat = durationFormat.substring(1);
+        }
+        return durationFormat;
+    }
+
+    private static String unitFormat(int i) {
+        String retStr;
+        if (i >= 0 && i < 10)
+            retStr = "0" + i;
+        else
+            retStr = "" + i;
+        return retStr;
+    }
+
+    @Test
+    public void testStringFormat() {
+        String a = "adaddsds_ssfdadad_V2.1";
+
+        System.out.println(a.substring(a.lastIndexOf("_")+1));
+    }
+
+    @Test
+    public void copyListTest() {
+        List<String> originList = new ArrayList<>();
+        originList.add("a");
+        originList.add("b");
+        originList.add("c");
+
+//        List<String> copyOneList = new ArrayList<>(originList);
+//        Collections.copy(copyOneList,originList);
+//        originList.remove(0);
+        List<String> copyOneList = new ArrayList<>(originList);
+        originList.remove(0);
+        originList.add("d");
+        System.out.println(JSON.toJSONString(originList));
+        System.out.println(JSON.toJSONString(copyOneList));
+    }
+
+    @Test
+    public void copyBeanListTest() {
+        List<DateBean> originList = new ArrayList<>();
+        originList.add(new DateBean("a"));
+        originList.add(new DateBean("b"));
+        originList.add(new DateBean("c"));
+
+        List<DateBean> copyOneList = new ArrayList<>(originList);
+        Collections.copy(copyOneList,originList);
+//        originList.remove(0);
+        //List<DateBean> copyOneList = (List<DateBean>) ((ArrayList<DateBean>) originList).clone();
+        originList.get(0).setValue("d");
+        System.out.println(JSON.toJSONString(originList));
+        System.out.println(JSON.toJSONString(copyOneList));
+    }
+
+    @Test
+    public void copyBeanConListTest() {
+        DateBean origin = new DateBean();
+        origin.setValue("a");
+
+        DateBean copyDateBean = new DateBean(origin.getValue());
+        origin.setValue("b");
+        assert copyDateBean.getValue().equals(origin.getValue());
+    }
+
+    @Test
+    public void testHour() {
+        Map<String,Object> reqMap = new HashMap<>();
+        long pid = 21143L;
+        reqMap.put("pid",pid);
+        int tableIndex = (int) Long.parseLong(reqMap.get("pid").toString()) % 16 ;
+        System.out.println(tableIndex);
+    }
+
+    @Test
+    public void testDivide() {
+        System.out.println(durationMathConvert(35,6));
+    }
+
+    private int durationMathConvert(int totalDuration , int pickUpCount) {
+        int convertDuration = totalDuration/pickUpCount;
+        if (totalDuration%pickUpCount >= 5) {
+            convertDuration += 1;
+        }
+        return convertDuration;
+    }
+
+    @Test
+    public void testRemove() {
+        ArrayList<Integer> integerArrayList = Lists.newArrayList(1, 2, 3);
+        for (Integer integer : integerArrayList) {
+            try {
+                if (integer == 1) {
+                    String a = null;
+                    a.length();
+                }
+            } catch (NullPointerException ex) {
+                ex.printStackTrace();
+                continue;
+            }
+            System.out.println(integer);
+        }
+    }
+
+    @Test
+    public void splitTest() {
+        String callId =  "*15000538768980_6b0c9776c1b04415965fa4a62b7a6b38*15000538760150005354545_7aa18d70e7b240eab92efb5849506994*15000538760_7fcbe34a1a4342a2a4950dcbde80c699*15000538760_78591493b5614982a31a3a36349b4298*15000538760_c89980b042dd4c85b9fdbf4d0e9fef2c";
+        System.out.println(callId.length());
+    }
+
+    @Test
+    public void streamDistinctTest() {
+        List<String> integerArrayList = Lists.newArrayList("1", "2", "3");
+        List<String> stringList = integerArrayList.subList(0, 2);
+        System.out.println(stringList);
+    }
 
 
 }

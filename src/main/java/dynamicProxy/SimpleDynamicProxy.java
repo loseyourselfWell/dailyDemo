@@ -7,7 +7,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class SimpleDynamicProxy {
-    private static SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public static void consumer(Interface iface){
         iface.doSomething();

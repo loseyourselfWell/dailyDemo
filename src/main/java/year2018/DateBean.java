@@ -12,9 +12,12 @@ import java.util.Date;
  */
 @Data
 public class DateBean {
-    private Date date;
-    private  Integer value;
-    public DateBean(int a , Object b) {
-        this.value = a;
+    private  String value;
+
+    public DateBean() {
+    }
+
+    public DateBean(String value) {
+        this.value = value;
     }
 }
