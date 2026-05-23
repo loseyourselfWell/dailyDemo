@@ -15,6 +15,7 @@ public class Complex {
     private Complex(String name,Integer value) {
         this.name = name;
         this.value = value;
+        System.out.println("Complex(String name,Integer value)");
     }
 
     public static Complex ComplexFactory(String name,Integer value) {
